@@ -1,52 +1,8 @@
-<?php namespace Flare\Math;
+<?php namespace Flare\Math\Drivers;
 
-class Math {
+use \Flare\Math\ExecutionEngineInterface as Engine;
 
-	/**
-	 * The SolutionEngineInterface implementation.
-	 *
-	 * @var \Flare\Math\SolutionEngineInterface
-	 */
-	protected $solutionEngine;
-
-	/**
-	 * The ExecutionEngineInterface implementation.
-	 *
-	 * @var \Flare\Math\ExecutionEngineInterface
-	 */
-	protected $executionEngine;
-
-	/**
-	 * Returns a new instance of Math.
-	 *
-	 * @return \Flare\Math\Math
-	 */
-	public function __construct(\Flare\Math\SolutionEngineInterface $solutionEngine, \Flare\Math\ExecutionEngineInterface $executionEngine)
-	{
-		$this->solutionEngine = $solutionEngine;
-		$this->executionEngine = $executionEngine;
-	}
-
-	/**
-	 * Represents the ratio of the circumference of a
-	 * circle to its diameter.
-	 *
-	 * @return double
-	 */
-	public function pi()
-	{
-		return M_PI;
-	}
-
-	/**
-	 * Represents the natural logarithmic base.
-	 *
-	 * @return double
-	 */
-	public function e()
-	{
-		return M_E;
-	}
+class MathExecutionEngine implements Engine {
 
 	/**
 	 * Returns the absolute value of a number.
@@ -56,7 +12,7 @@ class Math {
 	 */
 	public function abs($number)
 	{
-		return $this->executionEngine->abs($number);
+		return abs($number);
 	}
 
 	/**
@@ -67,7 +23,7 @@ class Math {
 	 */
 	public function acos($number)
 	{
-		return ( (float) $this->executionEngine->acos($number) );
+		return ( (float) acos($number) );
 	}
 
 	/**
@@ -78,7 +34,7 @@ class Math {
 	 */
 	public function asin($number)
 	{
-		return ( (float) $this->executionEngine->asin($number) );
+		return ( (float) asin($number) );
 	}
 
 	/**
@@ -94,12 +50,12 @@ class Math {
 		{
 			// If the user has passed in two parameters, let's
 			// assume that they want to calculate Atan2.
-			return $this->executionEngine->atan2(func_get_arg(1), func_get_arg(2));
+			return $this->atan2(func_get_arg(1), func_get_arg(2));
 		}
 
 		// If the number of arguments is not two, just calculate
 		// the atan as normal.
-		return ( (float) $this->executionEngine->atan($number) );
+		return ( (float) atan($number) );
 	}
 
 	/**
@@ -111,7 +67,7 @@ class Math {
 	 */
 	public function atan2($x, $y)
 	{
-		return ( (float) $this->executionEngine->atan2($x, $y) );
+		return ( (float) atan2($x, $y) );
 	}
 
 
@@ -122,7 +78,7 @@ class Math {
 	 */
 	public function ceiling($number)
 	{
-		return $this->executionEngine->ceil($number);
+		return ceil($number);
 	}
 
 	/**
@@ -133,7 +89,7 @@ class Math {
 	 */
 	public function cos($angle)
 	{
-		return ( (float) $this->executionEngine->cos($angle) );
+		return ( (float) cos($angle) );
 	}
 
 	/**
@@ -144,7 +100,7 @@ class Math {
 	 */
 	public function cosh($angle)
 	{
-		return ( (float) $this->executionEngine->cosh($angle) );
+		return ( (float) cosh($angle) );
 	}
 
 	/**
@@ -155,7 +111,7 @@ class Math {
 	 */
 	public function exp($number)
 	{
-		return ( (double) $this->executionEngine->exp($number) );
+		return ( (double) exp($number) );
 	}
 
 	/**
@@ -166,7 +122,7 @@ class Math {
 	 */
 	public function floor($number)
 	{
-		return $this->executionEngine->floor($number);
+		return floor($number);
 	}
 
 	/**
@@ -178,7 +134,7 @@ class Math {
 	 */
 	public function log($number, $base = M_E)
 	{
-		return $this->executionEngine->log($number, $base);
+		return log($number, $base);
 	}
 
 	/**
@@ -189,7 +145,7 @@ class Math {
 	 */
 	public function log10($number)
 	{
-		return $this->executionEngine->log10($number);
+		return log10($number);
 	}
 
 	/**
@@ -200,7 +156,7 @@ class Math {
 	 */
 	public function max(array $numbers)
 	{
-		return $this->executionEngine->max($numbers);
+		return max($numbers);
 	}
 
 	/**
@@ -211,7 +167,7 @@ class Math {
 	 */
 	public function min(array $numbers)
 	{
-		return $this->executionEngine->min($numbers);
+		return min($numbers);
 	}
 
 	/**
@@ -223,7 +179,7 @@ class Math {
 	 */
 	public function pow($base, $exponent)
 	{
-		return $this->executionEngine->pow($base, $exponent);
+		return pow($base, $exponent);
 	}
 
 	/**
@@ -236,7 +192,7 @@ class Math {
 	 */
 	public function round($number, $precision = 0, $mode = PHP_ROUND_HALF_UP)
 	{
-		return $this->executionEngine->round($number, $precision, $mode);
+		return round($number, $precision, $mode);
 	}
 
 	/**
@@ -247,7 +203,18 @@ class Math {
 	 */
 	public function sign($number)
 	{
-		return $this->executionEngine->sign($number);
+		if ($number > 0)
+		{
+			return 1;
+		}
+		elseif ($number < 0)
+		{
+			return -1;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 	/**
@@ -258,7 +225,7 @@ class Math {
 	 */
 	public function sin($angle)
 	{
-		return $this->executionEngine->sin($angle);
+		return sin($angle);
 	}
 
 	/**
@@ -269,7 +236,7 @@ class Math {
 	 */
 	public function sinh($angle)
 	{
-		return $this->executionEngine->sinh($angle);
+		return sinh($angle);
 	}
 
 	/**
@@ -280,7 +247,7 @@ class Math {
 	 */
 	public function sqrt($number)
 	{
-		return $this->executionEngine->sqrt($number);
+		return sqrt($number);
 	}
 
 	/**
@@ -291,7 +258,7 @@ class Math {
 	 */
 	public function tan($angle)
 	{
-		return $this->executionEngine->tan($angle);
+		return tan($angle);
 	}
 
 	/**
@@ -302,7 +269,7 @@ class Math {
 	 */
 	public function tanh($angle)
 	{
-		return $this->executionEngine->tanh($angle);
+		return tanh($angle);
 	}
 
 	/**
@@ -313,18 +280,7 @@ class Math {
 	 */
 	public function truncate($number)
 	{
-		return $this->executionEngine->intval($number);
-	}
-
-	/**
-	 * Solves the given equation. 
-	 *
-	 * @param  string $equation
-	 * @return number
-	 */	
-	public function solve($equation)
-	{
-		return $this->solutionEngine->solve($equation);
+		return intval($number);
 	}
 
 }

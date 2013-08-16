@@ -26,7 +26,7 @@ class MathServiceProvider extends ServiceProvider {
 		});
 
 		$this->app->bind('ExecutionEngineInterface', '\Flare\Math\Drivers\MathExecutionEngine');
-		$this->app->bind('SolutionEngineInterface', function($app) {
+		$this->app->singleton('SolutionEngineInterface', function($app) {
 			return new \Flare\Math\Drivers\EvalMathDriver($app->make('ExecutionEngineInterface'));
 		});
 

@@ -19,6 +19,47 @@ Route::get('/', function()
 
 ```
 
+### The `Math::solve()` Functions
+
+The math package provides a `solve()` function through the `Math` facade. This function can be used to solve equations or expressions entered by the user.
+
+**Example**
+```
+// app/routes.php
+
+Route::get('/', function()
+{
+
+	// Create a new function f(x) = 2 + x
+	Math::solve('f(x) = 2 + x');
+
+	// Reference our previous function and pass in 23.
+	$result = Math::solve('f(23)');
+
+	// Result is equal to 25.
+	echo $result;
+
+});
+```
+
+We can also use *all* of the general math functions that are listed below:
+```
+// app/routes.php
+
+Route::get('/', function()
+{
+
+	// Outputs 9.3326215443944E+157
+	echo Math::solve('abs(factorial(100))');
+
+});
+
+```
+
+
+
+### General Math Functions
+
 The math package currently provides the following functions from the `ExecutionEngineInterface` and be accessed through the Math object aliased through the `Math` facade.
 
 * `abs($number)` - Returns the absolute value of a number.

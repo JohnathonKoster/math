@@ -91,6 +91,17 @@ class EvalMathDriver implements Engine {
 	protected $userFunctions = array();
 
 	/**
+	 * Returns an instance of EvalMathDriver
+	 *
+	 * @param \Flare\Math\ExecutionEngineInterface
+	 */
+	public function __construct(\Flare\Math\ExecutionEngineInterface $executionEngine)
+	{
+		$this->executionEngine = $executionEngine;
+	}
+
+
+	/**
 	 * Sets the ExecutionEngineInterface implementation.
 	 *
 	 * @param \Flare\Math\ExecutionEngineInterface
@@ -310,6 +321,7 @@ class EvalMathDriver implements Engine {
 					// Pop the function and push onto the output.
 					$output[] = $stack->pop();
 
+
 					if (in_array($functionName, $this->functions))
 					{
 						// Check the argument count.
@@ -317,18 +329,19 @@ class EvalMathDriver implements Engine {
 						{
 							return $this->raiseError('Invalid argument count. Expecting 1 argument, \''.$argumentCount.'\' given.');
 						}
-						elseif (array_key_exists($functionName, $this->userFunctions))
+					}
+					elseif (array_key_exists($functionName, $this->userFunctions))
+					{
+						if ($argumentCount != count($this->userFunctions[$functionName]['args']))
 						{
-							if ($argumentCount != count($this->userFunctions[$functionName]['args']))
-							{
-								return $this->raiseError('Invalid argument count. Expecting \''.count($this->userFunctions[$functionName]['args']).'\' argument, \''.$argumentCount.'\' given.');
-							}
-						}
-						else
-						{
-							return $this->raiseError('Unexpected error.');
+							return $this->raiseError('Invalid argument count. Expecting \''.count($this->userFunctions[$functionName]['args']).'\' argument, \''.$argumentCount.'\' given.');
 						}
 					}
+					else
+					{
+						return $this->raiseError('Unexpected error.');
+					}
+
 
 				}
 

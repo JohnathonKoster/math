@@ -25,8 +25,10 @@ class MathServiceProvider extends ServiceProvider {
 			$loader->alias('Math', 'Flare\Math\Facades\Math');
 		});
 
-		$this->app->bind('SolutionEngineInterface', '\Flare\Math\Drivers\EvalMathDriver');
 		$this->app->bind('ExecutionEngineInterface', '\Flare\Math\Drivers\MathExecutionEngine');
+		$this->app->bind('SolutionEngineInterface', function($app) {
+			return new \Flare\Math\Drivers\EvalMathDriver($app->make('ExecutionEngineInterface'));
+		});
 
 		$this->app['math'] = $this->app->share(function($app)
 		{

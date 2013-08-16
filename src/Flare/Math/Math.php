@@ -317,6 +317,77 @@ class Math {
 	}
 
 	/**
+	 * Returns the sum of two numbers.
+	 *
+	 * @param  number $numberOne
+	 * @param  number $numberTwo
+	 * @return number
+	 */
+	public function add($numberOne, $numberTwo)
+	{
+		return $this->executionEngine->add($numberOne, $numberTwo);
+	}
+
+	/**
+	 * Returns the difference of two numbers.
+	 *
+	 * @param  number $numberOne
+	 * @param  number $numberTwo
+	 * @return number
+	 */
+	public function subtract($numberOne, $numberTwo)
+	{
+		return $this->executionEngine->subtract($numberOne, $numberTwo);
+	}
+
+	/**
+	 * Returns the product of two numbers.
+	 *
+	 * @param  number $numberOne
+	 * @param  number $numberTwo
+	 * @return number
+	 */
+	public function multiply($numberOne, $numberTwo)
+	{
+		return $this->executionEngine->multiply($numberOne, $numberTwo);
+	}
+
+	/**
+	 * Returns the quotient of two numbers.
+	 *
+	 * @param  number $numberOne
+	 * @param  number $numberTwo
+	 * @return number
+	 */
+	public function divide($numberOne, $numberTwo)
+	{
+		return $this->executionEngine->divide($numberOne, $numberTwo);
+	}
+
+	/**
+	 * Returns the remainder of two numbers.
+	 *
+	 * @param  number $numberOne
+	 * @param  number $numberTwo
+	 * @return number
+	 */
+	public function mod($numberOne, $numberTwo)
+	{
+		return $this->executionEngine->mod($numberOne, $numberTwo);
+	}
+
+	/**
+	 * Calculates the factorial of a number.
+	 *
+	 * @param  number $number
+	 * @return number
+	 */
+	public function factorial($number)
+	{
+		return $this->executionEngine->factorial($number);
+	}
+
+	/**
 	 * Solves the given equation. 
 	 *
 	 * @param  string $equation

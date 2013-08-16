@@ -236,6 +236,14 @@ interface ExecutionEngineInterface {
 	 */
 	public function mod($numberOne, $numberTwo);
 
+	/**
+	 * Calculates the factorial of a number.
+	 *
+	 * @param  number $number
+	 * @return number
+	 */
+	public function factorial($number);
+
 
 
 

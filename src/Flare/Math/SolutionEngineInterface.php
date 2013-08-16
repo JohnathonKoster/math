@@ -21,6 +21,6 @@ interface SolutionEngineInterface {
 	 * Gets the ExecutionEngineInterface implementation.
 	 *
 	 */
-	public function setExecutionEngine();
+	public function getExecutionEngine();
 
 }

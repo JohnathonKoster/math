@@ -4,10 +4,6 @@ use \Flare\Math\ExecutionEngineInterface as Engine;
 
 class MathExecutionEngine implements Engine {
 
-	public function __construct()
-	{
-		
-	}
 
 	/**
 	 * Returns the absolute value of a number.

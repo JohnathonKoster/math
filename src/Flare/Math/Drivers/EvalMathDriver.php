@@ -227,7 +227,7 @@ class EvalMathDriver implements Engine {
 		$expression = trim(strtolower($expression));
 
 		$operators = array(
-			'+', '-', '*', '/', '^', '_', '%', '!',
+			'+', '-', '*', '/', '^', '_', '%',
 		);
 
 		// Right-Associative operator
@@ -436,16 +436,7 @@ class EvalMathDriver implements Engine {
 			{
 				if (in_array($character, $operators))
 				{
-					if (! $character == '!')
-					{
-						// The expression ended with an operator. This is
-						// not good.
-						return $this->raiseError('Operator \''.$character.'\' lacks operand.');
-					}
-					else
-					{
-						break;
-					}
+					return $this->raiseError('Operator \''.$character.'\' lacks operand.');
 				}
 				else
 				{
@@ -489,7 +480,7 @@ class EvalMathDriver implements Engine {
 
 		foreach ($tokens as $token)
 		{
-			if (in_array($token, array('+', '-', '*', '/', '^', '%', '!')))
+			if (in_array($token, array('+', '-', '*', '/', '^', '%')))
 			{
 
 				$lastOperatorTwo = $stack->pop();

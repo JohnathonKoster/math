@@ -19,8 +19,37 @@ Route::get('/', function()
 
 ```
 
-The math package provides the following functions 
+The math package currently provides the following functions from the `ExecutionEngineInterface` and be accessed through the Math object aliased through the `Math` facade.
 
+* `abs($number)` - Returns the absolute value of a number.
+* `acos($number)` - Returns the arc cosine of a number.
+* `asin($number)` - Returns the arc sine of a number.
+* `atan($number)` - Returns the arc tangent of a number.
+* `atan2($x, $y)` - Calculates the arc tangent of two variables.
+* `ceiling($number)` - ceiling($number)
+* `cos($angle)` - Returns the cosine of the specified angle.
+* `cosh($angle)` - Returns the hyperbolic cosine of the angle.
+* `exp($number)` - Returns e raised to given power.
+* `floor($number)` - Returns the next lowest integer of a number.
+* `log($number, $base = M_E)` - Returns the logarithm of a number in a specified base.
+* `log10($number)` - Returns the base-10 logarithm of a number.
+* `max(array $numbers)` - Returns the highest value in the array of numbers.
+* `min(array $numbers)` - Returns the lowest value in the array of numbers.
+* `pow($base, $exponent)` - Returns a base number raised to an exponent.
+* `round($number, $precision = 0, $mode = PHP_ROUND_HALF_UP)` - Rounds a number to the nearest value.
+* `sign($number)` - Returns a value indicating the sign of a number.
+* `sin($angle)` - Returns the sine of the given angle.
+* `sinh($angle)` - Returns the hyperbolic sine of of the angle.
+* `sqrt($number)` - Returns the square root of a given number.
+* `tan($angle)` - Returns the tangent of a specified angle.
+* `tanh($angle)` - Returns the hyperbolic tangent of an angle.
+* `truncate($number)` - Returns the integral part of a given number.
+* `add($numberOne, $numberTwo)` - Returns the sum of two numbers.
+* `subtract($numberOne, $numberTwo` - Returns the difference of two numbers.
+* `multiply($numberOne, $numberTwo)` - Returns the product of two numbers.
+* `divide($numberOne, $numberTwo)` - Returns the quotient of two numbers.
+* `mod($numberOne, $numberTwo)` - Returns the remainder of two numbers.
+* `factorial($number)` - Calculates the factorial of a number.
 
 ## Drivers
 

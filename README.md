@@ -19,7 +19,7 @@ Route::get('/', function()
 
 ```
 
-### The `Math::solve()` Functions
+### The `Math::solve()` Function
 
 The math package provides a `solve()` function through the `Math` facade. This function can be used to solve equations or expressions entered by the user.
 

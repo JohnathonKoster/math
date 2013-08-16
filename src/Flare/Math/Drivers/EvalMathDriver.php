@@ -222,18 +222,18 @@ class EvalMathDriver implements Engine {
 		$expression = trim(strtolower($expression));
 
 		$operators = array(
-			'+', '-', '*', '/', '^', '_',
+			'+', '-', '*', '/', '^', '_', '%',
 		);
 
 		// Right-Associative operator
 		$operatorsRight = array(
-			'+' => 0, '-' => 0, '*' => 0,
+			'+' => 0, '-' => 0, '*' => 0, '%',
 			'/' => 0, '^' => 1,
 		);
 
 		// Operator Precedence
 		$operatorPrecedence = array(
-			'+' => 0, '-' => 0, '*' => 1,
+			'+' => 0, '-' => 0, '*' => 1, '%' => 1,
 			'/' => 1, '_' => 1, '^' => 2
 		);
 
@@ -241,7 +241,7 @@ class EvalMathDriver implements Engine {
 		// operators.
 		$expectingOperator = false;
 
-		if (preg_match("/[^\w\s+*^\/()\.,-]/", $expression, $matches))
+		if (preg_match("/[^\w\s+%*^\/()\.,-]/", $expression, $matches))
 		{
 			return $this->raiseError('Illegal character '.$matches[0]);
 		}
@@ -476,7 +476,7 @@ class EvalMathDriver implements Engine {
 
 		foreach ($tokens as $token)
 		{
-			if (in_array($token, array('+', '-', '*', '/', '^')))
+			if (in_array($token, array('+', '-', '*', '/', '^', '%')))
 			{
 
 				$lastOperatorTwo = $stack->pop();
@@ -512,6 +512,9 @@ class EvalMathDriver implements Engine {
 						break;
 					case '^':
 						$stack->push($this->executionEngine->pow($lastOperatorOne, $lastOperatorTwo));
+						break;
+					case '%':
+						$stack->push($this->executionEngine->mod($lastOperatorOne, $lastOperatorTwo));
 						break;
 				}
 

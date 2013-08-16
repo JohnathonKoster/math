@@ -466,8 +466,8 @@ class EvalMathDriver implements Engine {
 			if (in_array($token, array('+', '-', '*', '/', '^')))
 			{
 
-				$lastOperatorOne = $stack->pop();
 				$lastOperatorTwo = $stack->pop();
+				$lastOperatorOne = $stack->pop();
 
 				if (is_null($lastOperatorOne))
 				{

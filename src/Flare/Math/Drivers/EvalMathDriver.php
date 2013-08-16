@@ -1,7 +1,8 @@
 <?php namespace Flare\Math\Drivers;
 
 use \Flare\Math\SolutionEngineInterface as Engine;
-use \Flare\Math\Drivers\EvalMathStack as Stack;
+use \Flare\Math\Drivers\EvalMathStack   as Stack;
+use \Flare\Math\Support\ClassUtility    as Utility;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,12 +77,7 @@ class EvalMathDriver implements Engine {
 	 *
 	 * @var array
 	 */
-	protected $functions = array(
-		'sin', 'sinh', 'arcsin', 'asin', 'arcsinh',
-		'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh',
-		'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh',
-		'atanh', 'sqrt', 'abs', 'ln', 'log'
-	);
+	protected $functions = array();
 
 	/**
 	 * Holds the user-defined functions.
@@ -98,6 +94,15 @@ class EvalMathDriver implements Engine {
 	public function __construct(\Flare\Math\ExecutionEngineInterface $executionEngine)
 	{
 		$this->executionEngine = $executionEngine;
+
+		// Here, we are going to 'discover' the instance methods that our
+		// ExecutionEngineInterface implementation is going to provide for us.
+		// This means we do not have to create an array that holds all of the
+		// possible functions that we may want to use.
+		//
+		// Also, this means that our driver will adapt to new functions that
+		// may become available in the future.
+		$this->functions = Utility::discoverClassMethods($this->executionEngine);
 	}
 
 
@@ -222,7 +227,7 @@ class EvalMathDriver implements Engine {
 		$expression = trim(strtolower($expression));
 
 		$operators = array(
-			'+', '-', '*', '/', '^', '_', '%',
+			'+', '-', '*', '/', '^', '_', '%', '!',
 		);
 
 		// Right-Associative operator
@@ -234,7 +239,7 @@ class EvalMathDriver implements Engine {
 		// Operator Precedence
 		$operatorPrecedence = array(
 			'+' => 0, '-' => 0, '*' => 1, '%' => 1,
-			'/' => 1, '_' => 1, '^' => 2
+			'/' => 1, '_' => 1, '^' => 2,
 		);
 
 		// Used for syntax-checking and verifying negation
@@ -294,6 +299,7 @@ class EvalMathDriver implements Engine {
 				$stack->push($character);
 				$position++;
 				$expectingOperator = false;
+
 			}
 			elseif ($character == ')' and $expectingOperator)
 			{
@@ -417,7 +423,7 @@ class EvalMathDriver implements Engine {
 			{
 				return $this->raiseError('Unexpected \')\'');
 			}
-			elseif (in_array($character, $this->operators) and ! $expectingOperator)
+			elseif (in_array($character, $operators) and ! $expectingOperator)
 			{
 				return $this->raiseError('Unexpected operator \''.$character.'\'');
 			}
@@ -430,9 +436,16 @@ class EvalMathDriver implements Engine {
 			{
 				if (in_array($character, $operators))
 				{
-					// The expression ended with an operator. This is
-					// not good.
-					return $this->raiseError('Operator \''.$character.'\' lacks operand.');
+					if (! $character == '!')
+					{
+						// The expression ended with an operator. This is
+						// not good.
+						return $this->raiseError('Operator \''.$character.'\' lacks operand.');
+					}
+					else
+					{
+						break;
+					}
 				}
 				else
 				{
@@ -476,7 +489,7 @@ class EvalMathDriver implements Engine {
 
 		foreach ($tokens as $token)
 		{
-			if (in_array($token, array('+', '-', '*', '/', '^', '%')))
+			if (in_array($token, array('+', '-', '*', '/', '^', '%', '!')))
 			{
 
 				$lastOperatorTwo = $stack->pop();
@@ -535,7 +548,7 @@ class EvalMathDriver implements Engine {
 				{
 					// The function name is one of the default functions.
 					$lastOperatorOne = $stack->pop();
-					if (is_null($lastOperatorTwo))
+					if (is_null($lastOperatorOne))
 					{
 						return $this->raiseError('Internal error.');
 					}
@@ -552,74 +565,15 @@ class EvalMathDriver implements Engine {
 					// Here the original code had an eval statement. We are going to try and do
 					// away with that and handle the function execution ourself. We will also do
 					// this so that this driver can use the MathExecutionEngine implementation.
+					// This piece of code will look-up a function on the MathExecutionEngine
+					// implementation and call an instance method on the implementation. We do this
+					// so that we do not have to define a use-case for each and every function
+					// that the driver may encounter.
 
-					switch ($functionName)
+					if (in_array($functionName, $this->functions))
 					{
-						case 'sin':
-							$stack->push($this->executionEngine->sin($lastOperatorOne));
-							break;
-						case 'sinh':
-							$stack->push($this->executionEngine->sinh($lastOperatorOne));
-							break;
-						case 'arcsin':
-							$stack->push($this->executionEngine->arcsin($lastOperatorOne));
-							break;
-						case 'asin':
-							$stack->push($this->executionEngine->asin($lastOperatorOne));
-							break;
-						case 'arcsinh':
-							$stack->push($this->executionEngine->arcsinh($lastOperatorOne));
-							break;
-						case 'asinh':
-							$stack->push($this->executionEngine->asinh($lastOperatorOne));
-							break;
-						case 'cos':
-							$stack->push($this->executionEngine->cos($lastOperatorOne));
-							break;
-						case 'cosh':
-							$stack->push($this->executionEngine->cosh($lastOperatorOne));
-							break;
-						case 'arccos':
-							$stack->push($this->executionEngine->arccos($lastOperatorOne));
-							break;
-						case 'acos':
-							$stack->push($this->executionEngine->acos($lastOperatorOne));
-							break;
-						case 'arccosh':
-							$stack->push($this->executionEngine->arccosh($lastOperatorOne));
-							break;
-						case 'acosh':
-							$stack->push($this->executionEngine->acosh($lastOperatorOne));
-							break;
-						case 'tan':
-							$stack->push($this->executionEngine->tan($lastOperatorOne));
-							break;
-						case 'tanh':
-							$stack->push($this->executionEngine->tanh($lastOperatorOne));
-							break;
-						case 'arctan':
-							$stack->push($this->executionEngine->arctan($lastOperatorOne));
-							break;
-						case 'atan':
-							$stack->push($this->executionEngine->atan($lastOperatorOne));
-							break;
-						case 'arctanh':
-							$stack->push($this->executionEngine->arctanh($lastOperatorOne));
-							break;
-						case 'atanh':
-							$stack->push($this->executionEngine->atanh($lastOperatorOne));
-							break;
-						case 'sqrt':
-							$stack->push($this->executionEngine->sqrt($lastOperatorOne));
-							break;
-						case 'abs':
-							$stack->push($this->executionEngine->abs($lastOperatorOne));
-							break;
-						case 'log':
-							$stack->push($this->executionEngine->log($lastOperatorOne));
-							break;
+						$stack->push($this->executionEngine->{$functionName}($lastOperatorOne));
 					}
-
 
 				}
 				elseif (array_key_exists($functionName, $this->userFunctions))

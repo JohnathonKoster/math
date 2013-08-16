@@ -61,7 +61,11 @@ class EvalMathStack {
 	 */
 	public function last($position = 1)
 	{
-		return $this->stack[$this->count - $position];
+		if (isset($this->stack[$this->count - $position]))
+		{
+			return $this->stack[$this->count - $position];			
+		}
+		return null;
 	}
 	
 }

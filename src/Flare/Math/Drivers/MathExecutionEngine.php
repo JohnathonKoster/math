@@ -4,6 +4,11 @@ use \Flare\Math\ExecutionEngineInterface as Engine;
 
 class MathExecutionEngine implements Engine {
 
+	public function __construct()
+	{
+		
+	}
+
 	/**
 	 * Returns the absolute value of a number.
 	 *
@@ -283,7 +288,7 @@ class MathExecutionEngine implements Engine {
 		return intval($number);
 	}
 
-		/**
+	/**
 	 * Returns the sum of two numbers.
 	 *
 	 * @param  number $numberOne
@@ -341,6 +346,30 @@ class MathExecutionEngine implements Engine {
 	public function mod($numberOne, $numberTwo)
 	{
 		return $numberOne % $numberTwo;
+	}
+
+	/**
+	 * Calculates the factorial of a number.
+	 *
+	 * @param  number $number
+	 * @return number
+	 */
+	public function factorial($number)
+	{
+		// Handle 0
+		if ($number == 0)
+		{
+			return 1;
+		}
+
+		$temp = $number;
+
+		while ($temp > 1)
+		{
+			$number = $this->multiply($number, $this->subtract($temp, 1));
+			$temp = $this->subtract($temp, 1);
+		}
+		return $number;		
 	}
 
 }

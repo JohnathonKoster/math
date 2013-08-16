@@ -495,23 +495,23 @@ class EvalMathDriver implements Engine {
 				switch ($token)
 				{
 					case '+':
-						$stack->push($lastOperatorOne + $lastOperatorTwo);
+						$stack->push($this->executionEngine->add($lastOperatorOne, $lastOperatorTwo));
 						break;
 					case '-':
-						$stack->push($lastOperatorOne - $lastOperatorTwo);
+						$stack->push($this->executionEngine->subtract($lastOperatorOne, $lastOperatorTwo));
 						break;
 					case '*':
-						$stack->push($lastOperatorOne * $lastOperatorTwo);
+						$stack->push($this->executionEngine->multiply($lastOperatorOne, $lastOperatorTwo));
 						break;
 					case '/':
 						if ($lastOperatorTwo == 0)
 						{
 							return $this->raiseError('Divide by zero error.');
 						}
-						$stack->push($lastOperatorOne / $lastOperatorTwo);
+						$stack->push($this->executionEngine->divide($lastOperatorOne, $lastOperatorTwo));
 						break;
 					case '^':
-						$stack->push(pow($lastOperatorOne, $lastOperatorTwo));
+						$stack->push($this->executionEngine->pow($lastOperatorOne, $lastOperatorTwo));
 						break;
 				}
 

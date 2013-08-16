@@ -191,4 +191,52 @@ interface ExecutionEngineInterface {
 	 */
 	public function truncate($number);
 
+	/**
+	 * Returns the sum of two numbers.
+	 *
+	 * @param  number $numberOne
+	 * @param  number $numberTwo
+	 * @return number
+	 */
+	public function add($numberOne, $numberTwo);
+
+	/**
+	 * Returns the difference of two numbers.
+	 *
+	 * @param  number $numberOne
+	 * @param  number $numberTwo
+	 * @return number
+	 */
+	public function subtract($numberOne, $numberTwo);
+
+	/**
+	 * Returns the product of two numbers.
+	 *
+	 * @param  number $numberOne
+	 * @param  number $numberTwo
+	 * @return number
+	 */
+	public function multiply($numberOne, $numberTwo);
+
+	/**
+	 * Returns the quotient of two numbers.
+	 *
+	 * @param  number $numberOne
+	 * @param  number $numberTwo
+	 * @return number
+	 */
+	public function divide($numberOne, $numberTwo);
+
+	/**
+	 * Returns the remainder of two numbers.
+	 *
+	 * @param  number $numberOne
+	 * @param  number $numberTwo
+	 * @return number
+	 */
+	public function mod($numberOne, $numberTwo);
+
+
+
+
 }

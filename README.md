@@ -2,6 +2,34 @@
 
 A math package for Laravel 4.
 
+## Installation
+
+The easiest way to install `math` for Laravel 4 is to use Composer. Add this to your `composer.json` file:
+
+```
+"flare/math": "*"
+```
+
+After your have added that run the `composer update` command to have the math package downloaded and placed in your vendor folder.
+
+### Registering the Service Provider
+
+After you have downloaded math using Composer, add this to your providers array in the `app.php` config file:
+
+```
+'Flare\Math\MathServiceProvider',
+```
+
+### Registering the Facade (optional)
+
+To register the facade for the math package, add this entry to your aliases in the `app.php` configuration file:
+
+```
+'Math'			  => 'Flare\Math\Facades\Math',
+```
+
+After this, you should be all set to go! Enjoy!
+
 ## Usage
 
 After installing and registering the service provider, you can use the math library by referencing the `Math` facade:

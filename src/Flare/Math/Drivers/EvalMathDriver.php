@@ -156,7 +156,7 @@ class EvalMathDriver implements Engine {
 
 			$temp  = $this->evaluatePostfixNotation($this->convertInfixToPostfix($matches[2]));
 
-			if (($temp = false) == false)
+			if ($temp == false)
 			{
 				return false;
 			}
